@@ -61,6 +61,7 @@ def subscription_required(f):
 
 @app.route('/')
 def home():
+    print(f"Home route: current_user.is_authenticated = {current_user.is_authenticated}")
     videos = Video.query.order_by(Video.upload_date.desc()).all()
     if current_user.is_authenticated and not current_user.is_subscribed:
         flash('You are not subscribed. Please register or subscribe to access all content.', 'warning')
@@ -98,6 +99,7 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember.data)
+            print(f"User {user.username} successfully logged in.")
             next_page = request.args.get('next')
             return redirect(next_page or url_for('home'))
         else:
