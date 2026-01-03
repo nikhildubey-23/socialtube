@@ -23,10 +23,8 @@ login_manager.init_app(app)
 # Function to create database tables
 def create_database(app):
     with app.app_context():
-        if os.environ.get('VERCEL'):
-            print("Running on Vercel, skipping db.create_all() for in-memory DB.")
-        else:
-            db.create_all()
+        # Ensure tables are created, even for in-memory DB on Vercel
+        db.create_all()
 
 # Call create_database after app initialization to ensure tables are created
 create_database(app)
