@@ -1,0 +1,113 @@
+:root {
+    --primary-color: #2c3e50; /* Dark Slate Grey - Professional and calm */
+    --secondary-color: #34495e; /* Slightly lighter dark blue-grey */
+    --accent-color: #3498db; /* Peter River - A clean, vibrant blue for accents */
+    --light-bg: #ecf0f1; /* Clouds - Very light grey for backgrounds */
+    --dark-text: #2c3e50;
+    --light-text: #ecf0f1;
+    --success-color: #2ecc71; /* Emerald Green */
+    --danger-color: #e74c3c; /* Alizarin Red */
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--light-bg);
+    color: var(--dark-text);
+    padding-top: 70px; /* Adjust for fixed navbar */
+}
+
+.site-header .navbar {
+    background-color: var(--primary-color) !important;
+    border-bottom: 3px solid var(--accent-color);
+}
+
+.site-header .navbar-brand,
+.site-header .nav-item .nav-link {
+    color: var(--light-text) !important;
+    transition: color 0.3s ease;
+}
+
+.site-header .nav-item .nav-link:hover {
+    color: var(--accent-color) !important;
+}
+
+.container {
+    margin-top: 20px;
+}
+
+/* Flash messages */
+.alert {
+    margin-top: 15px;
+    border-radius: 0.25rem;
+}
+.alert-success {
+    background-color: var(--success-color);
+    color: var(--light-text);
+    border-color: darken(var(--success-color), 5%);
+}
+.alert-danger {
+    background-color: var(--danger-color);
+    color: var(--light-text);
+    border-color: darken(var(--danger-color), 5%);
+}
+
+/* Forms */
+.form-control {
+    border-color: #ced4da;
+    box-shadow: none;
+}
+.form-control:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+}
+
+.btn-primary {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9; /* Darker shade of accent */
+    border-color: #2980b9;
+}
+
+/* Video cards */
+.video-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.video-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.video-thumbnail {
+    width: 100%;
+    height: 180px; /* Fixed height for consistency */
+    object-fit: cover; /* Cover the area without distortion */
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
+.video-title {
+    font-size: 1.25rem;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    color: var(--dark-text);
+}
+
+.video-uploader-date {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.video-description {
+    font-size: 1rem;
+    color: #495057;
+}
