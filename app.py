@@ -11,8 +11,11 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key_here' # Change this to a strong, random key in production
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+if os.environ.get('VERCEL'):
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:' # Use in-memory SQLite for Vercel
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.config['UPLOAD_FOLDER'] = 'static/uploads' # Folder to store uploaded videos
-
 
 db.init_app(app)
 login_manager.init_app(app)
@@ -20,14 +23,20 @@ login_manager.init_app(app)
 # Function to create database tables
 def create_database(app):
     with app.app_context():
-        db.create_all()
+        if os.environ.get('VERCEL'):
+            print("Running on Vercel, skipping db.create_all() for in-memory DB.")
+        else:
+            db.create_all()
 
 # Call create_database after app initialization to ensure tables are created
 create_database(app)
 
 # Ensure the upload folder exists
-if not os.path.exists(app.config['UPLOAD_FOLDER']):
-    os.makedirs(app.config['UPLOAD_FOLDER'])
+if os.environ.get('VERCEL'):
+    print("Running on Vercel, skipping local UPLOAD_FOLDER creation.")
+else:
+    if not os.path.exists(app.config['UPLOAD_FOLDER']):
+        os.makedirs(app.config['UPLOAD_FOLDER'])
 
 def admin_required(f):
     @wraps(f)
@@ -108,6 +117,10 @@ def logout():
 def upload_video():
     form = VideoUploadForm()
     if form.validate_on_submit():
+        if os.environ.get('VERCEL'):
+            flash('Video uploads are not supported on Vercel without external object storage.', 'danger')
+            return redirect(url_for('home'))
+        
         if form.video.data:
             filename = secure_filename(form.video.data.filename)
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
